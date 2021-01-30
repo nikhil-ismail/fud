@@ -1,0 +1,63 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Recommendations
+{% endblock %}
+
+{% block main %}
+
+<h2>Recommend Food To A Friend</h2>
+<form action="/rec" method="post" name="rec">
+    <div class="form-group">
+        <input autocomplete="off" autofocus class="form-control" style="width: 250px" name="sender_name" placeholder="Your Full Name" type="text">
+    </div>
+    <div class="form-group">
+        <input autocomplete="off" autofocus class="form-control" style="width: 250px" name="receiver_name" placeholder="Friend's Full Name" type="text">
+    </div>
+    <div class="form-group">
+        <input autocomplete="off" autofocus class="form-control" style="width: 250px" name="restaurant" placeholder="Restaurant" type="text">
+    </div>
+    <div class="form-group">
+        <input autocomplete="off" autofocus class="form-control" style="width: 250px" name="item" placeholder="Item" type="text">
+    </div>
+    <button class="material-icons" type="submit" name="recbutton" value="Reccomend">send</button>
+
+</form>
+
+<br/>
+
+<h2 class="headertext">Your Recommendations</h2>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">From</th>
+      <th scope="col">Restaurant</th>
+      <th scope="col">Item</th>
+      <th scope="col">Quantity</th>
+      <th scope="col">Order</th>
+      <th scope="col">Remove From List</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for rec in recs %}
+    <tr>
+      <td>{{ rec["recsender"] }}</th>
+      <td>{{ rec["recres"] }}</th>
+      <td>{{ rec["recprod"] }}</td>
+      <form method="POST" action="/rec" name="addcart">
+        <input type = "hidden" name = "restaurantname" value = "{{ rec["recres"] }}"/>
+        <input type = "hidden" name = "productname" value = "{{ rec["recprod"] }}"/>
+        <td><input type="number" id="quantity" style="width: 50px" name="quantity" min="1"</td>
+        <td><button type="submit" name="addcartbutton" value="Add to Cart" class="material-icons">add_shopping_cart</button></td>
+      </form>
+      <form method="POST" action="/rec" name="remove">
+        <input type = "hidden" name = "restaurantname" value = "{{ rec["recres"] }}"/>
+        <input type = "hidden" name = "productname" value = "{{ rec["recprod"] }}"/>
+        <td><button type="submit" name="removebutton" value="Remove" class="material-icons">delete</button></td>
+      </form>
+      {% endfor %}
+    </tr>
+  </tbody>
+</table>
+
+{% endblock %}

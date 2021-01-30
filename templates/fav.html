@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Favourites
+{% endblock %}
+
+{% block main %}
+
+<h2>Your Favourites</h2>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Restaurant</th>
+      <th scope="col">Item</th>
+      <th scope="col">Quantity</th>
+      <th scope="col">Order</th>
+      <th scope="col">Remove From List</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for fav in favs %}
+    <tr>
+      <td>{{ fav["resname"] }}</th>
+      <td>{{ fav["prodname"] }}</td>
+      <form method="POST" action="/fav" name="addcart">
+        <input type = "hidden" name = "restaurantname" value = "{{ fav["resname"] }}"/>
+        <input type = "hidden" name = "productname" value = "{{ fav["prodname"] }}"/>
+        <td><input type="number" id="quantity" style="width: 50px" name="quantity" min="1"</td>
+        <td><button type="submit" name="addcartbutton" value="Add to Cart" class="material-icons">add_shopping_cart</button></td>
+      </form>
+      <form method="POST" action="/fav" name="remove">
+        <input type = "hidden" name = "restaurantname" value = "{{ fav["resname"] }}"/>
+        <input type = "hidden" name = "productname" value = "{{ fav["prodname"] }}"/>
+        <td><button type="submit" name="removebutton" value="Remove" class="material-icons">delete</button></td>
+      </form>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+
+{% endblock %}

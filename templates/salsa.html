@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Salsa Fresca
+{% endblock %}
+
+{% block main %}
+
+<h2 class="header">Salsa Fresca
+<small class="text-muted">fresh food you can trust</small>
+</h2>
+
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Product</th>
+      <th scope="col">Price</th>
+      <th scope="col">Quantity</th>
+      <th scope="col">Add to Cart</th>
+      <th scope="col">Favourite</th>
+    </tr>
+  </thead>
+
+  <tbody>
+   {% for menu in menus %}
+    <tr>
+      <td>{{ menu["name"] }}</td>
+      <td>${{ menu["price"] }}</td>
+      <form method="POST" action="/salsa" name="addcart">
+        <input type = "hidden" name = "productname" value = "{{ menu["name"] }}"/>
+        <td><input type="number" id="quantity" style="width: 50px" name="quantity" min="1"</td>
+        <td><button type="submit" name="addcartbutton" value="Add to Cart" class="material-icons">add_shopping_cart</button></td>
+      </form>
+      <form method="POST" action="/salsa" name="fav">
+        <input type = "hidden" name = "productname" value = "{{ menu["name"] }}"/>
+        <td><button type="submit" name="favbutton" value="Add to Favourites" class="material-icons red">favorite</button></td>
+      </form>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}
